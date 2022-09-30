@@ -1,39 +1,33 @@
+import axios from 'axios'
+
 class Youtube {
-  key = '';
-  #BASE_URL = 'https://www.googleapis.com/youtube/v3';
-  constructor(key) {
-    this.key = key;
+  constructor(httpClient) {
+    this.youtube = httpClient
   }
 
-  getRequestOptions = {
-    method: 'GET',
-    redirect: 'follow',
-  };
-
   async mostPopular() {
-    return await fetch(
-      `${
-        this.#BASE_URL
-      }/videos?part=snippet&chart=mostPopular&maxResults=25&key=${this.key}`,
-      this.getRequestOptions
-    )
-      .then((res) => res.json())
-      .then((result) => result.items);
+    const response = await this.youtube.get('/videos', {
+      params: {
+        part: 'snippet',
+        chart: 'mostPopular',
+        maxResults: 25
+      }
+    })
+
+    return response.data.items;
   }
 
   async search(query) {
-    return await fetch(
-      `${
-        this.#BASE_URL
-      }/search?part=snippet&maxResults=25&q=${query}&type=video&key=${
-        this.key
-      }`,
-      this.getRequestOptions
-    )
-      .then((res) => res.json())
-      .then((result) =>
-        result.items.map((item) => ({ ...item, id: item.id.videoId }))
-      );
+    const response = await this.youtube.get('/search', {
+      params: {
+        part: 'snippet',
+        q: query,
+        maxResults: 25,
+        type: 'video'
+      }
+    }).then(res => res.data.items.map(item => ({...item, id: item.id.videoId})))
+
+    return response
   }
 }
 

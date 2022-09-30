@@ -22,4 +22,4 @@ function VideoItem({ video, onVideoClick, video: { snippet }, display }) {
   );
 }
 
-export default VideoItem;
+export const MemorizedVideoItem = React.memo(VideoItem);
