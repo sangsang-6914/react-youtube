@@ -3,6 +3,14 @@
   padding: 0.2em;
 }
 
+.container.grid {
+    width: 50%;
+}
+
+.container.list {
+    width: 100%;
+}
+
 .video {
   border: 1px solid lightgrey;
   box-shadow: 9px 11px 16px -1px rgba(166, 163, 166, 1);
